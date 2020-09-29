@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import {Subject} from 'rxjs';
 
 
-interface Product {
+export interface Product {
   name: string,
   price: number
 }
@@ -31,6 +32,14 @@ export class DataService {
   cart: Product[] = [];
 
   constructor() { }
+
+  graphRefresh$: Subject<boolean> = new Subject<boolean>();
+
+  updateGraph() {
+    this.graphRefresh$.next(true);
+  }
+
+
   getInventoryValue(): number {
     return this.inventory.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
   }

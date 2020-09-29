@@ -1,0 +1,27 @@
+<div class="example-container">
+	<h2>Inventory</h2>
+	
+	<div
+			cdkDropList
+			#inventoryList="cdkDropList"
+			[cdkDropListData]="dataService.inventory"
+			[cdkDropListConnectedTo]="[cartList]"
+			class="example-list"
+			(cdkDropListDropped)="drop($event)">
+		<div class="example-box" *ngFor="let item of dataService.inventory" cdkDrag>{{item.name}} - {{item.price}}$</div>
+	</div>
+</div>
+
+<div class="example-container">
+	<h2>Cart</h2>
+	
+	<div
+			cdkDropList
+			#cartList="cdkDropList"
+			[cdkDropListData]="dataService.cart"
+			[cdkDropListConnectedTo]="[inventoryList]"
+			class="example-list"
+			(cdkDropListDropped)="drop($event)">
+		<div class="example-box" *ngFor="let item of dataService.cart" cdkDrag>{{item.name}} - {{item.price}}$</div>
+	</div>
+</div>

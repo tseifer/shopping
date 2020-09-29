@@ -13,4 +13,10 @@ describe('DataService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('verify inventory sum', () => {
+    let dataService: DataService = new DataService();
+    dataService.cart = [{name: 'a', price:5}, {name: 'b', price:7}, , {name: 'b', price:3}];
+    expect(dataService.getCartValue()).toBe(15);
+  })
 });

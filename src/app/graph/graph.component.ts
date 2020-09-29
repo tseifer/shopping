@@ -9,27 +9,62 @@ import Chart from 'chart.js';
 })
 export class GraphComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(public dataService: DataService) { }
 
   @ViewChild('mycanvas', { static: true })
   canvas: ElementRef<HTMLCanvasElement>;
 
   private ctx: CanvasRenderingContext2D;
+  private chart: Chart;
+
+  dataArr = [this.dataService.getInventoryValue(),
+             this.dataService.getCartValue()];
 
   ngOnInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
 
-    this.draw(this.canvas.nativeElement);
+
+    this.draw();
+    //this.dataService.graphRefresh$.subscribe(() => this.draw());
+
+    this.dataService.graphRefresh$.subscribe(() => {
+      this.dataArr[0] = this.dataService.getInventoryValue();
+      this.dataArr[1] = this.dataService.getCartValue();
+      this.chart.update();
+      //this.draw();
+    })
   }
 
-  draw(ctx: HTMLCanvasElement) {
+  draw() {
     let config = {
       type: 'bar',
-      data: data,
-      options: options
-    }
+
+      data: {
+        labels: ['Shop', 'Cart'],
+        datasets: [{
+          label: 'values',
+          barThickness: 20,
+          maxBarThickness: 20,
+          minBarLength: 2,
+          data: this.dataArr,
+          // data: [this.dataService.getInventoryValue(),
+          //        this.dataService.getCartValue()],
+          backgroundColor: ['#ff6384', '#36a2eb',]
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 300
+            }
+          }]
+        }
+      }
+    };
 
 
-    var myChart = new Chart(this.ctx, config);
+   this.chart = new Chart(this.ctx, config);
   }
 }
