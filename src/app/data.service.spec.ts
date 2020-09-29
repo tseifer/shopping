@@ -14,9 +14,15 @@ describe('DataService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('verify inventory sum', () => {
+  it('verify inventory sum with delivery', () => {
     let dataService: DataService = new DataService();
     dataService.cart = [{name: 'a', price:5}, {name: 'b', price:7}, , {name: 'b', price:3}];
-    expect(dataService.getCartValue()).toBe(15);
+    expect(dataService.getCartValue()).toBe(35, 'kukuku');
+  })
+
+  it('verify inventory sum without delivery', () => {
+    let dataService: DataService = new DataService();
+    dataService.cart = [{name: 'a', price:50}, {name: 'b', price:29}, , {name: 'b', price:21}];
+    expect(dataService.getCartValue()).toBe(100);
   })
 });

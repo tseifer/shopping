@@ -44,7 +44,11 @@ export class DataService {
     return this.inventory.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
   }
   getCartValue(): number {
-    return this.cart.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
+    let cartVal =  this.cart.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
+    if (cartVal < 100) {
+      cartVal += 20;
+    }
+    return cartVal;
   }
 
 
